@@ -45,7 +45,7 @@ function cart(){
 
 //deisplaying no of items in the cart
 function addItems(){
-	if(isset($_SESSION['customer_email'])){
+	
 		global $conn;
 
 	if(isset($_GET['add_cart'])){
@@ -68,16 +68,12 @@ function addItems(){
 	}
 
 	echo $count_items;
-	}
-	else
-	{
-		echo "0";
-	}
+	
 }
 
 //adding the total price
 function total_price(){
-	if(isset($_SESSION['customer_email'])){
+	
 		global $conn;
     $total=0;
 	$ip=getIp();
@@ -101,10 +97,7 @@ function total_price(){
 		}
 	}
 	echo "$".$total;
-	}
-	else{
-		echo "0";
-	}
+	
 }
 
 
