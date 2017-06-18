@@ -1,3 +1,8 @@
+<?php    
+include("includes/db.php");
+
+?>
+
 
 <div>
 	<form method="post" action="">
@@ -28,3 +33,48 @@
 		<h2 style="float: right; padding-right: 20px;"><a href="customer_register.php" style="text-decoration: none">New? Register Here</a></h2>
 	</form>
 </div>
+
+<?php
+if(isset($_POST['login'])){
+	$c_email=$_POST['email'];
+	$c_pass=$_POST['pass'];
+
+	$sel_c="select * from customers where customer_email='$c_email' AND customer_pass='$c_pass'";
+
+	$run_c=mysqli_query($conn,$sel_c);
+
+	$check_c=mysqli_num_rows($run_c);
+
+	if($check_c==0){
+		echo "<script>alert('incorrect email or password,please try again!')</script>";
+		exit();
+	}
+
+	$ip=getIp();
+
+	 $sel_cart="select * from cart where ip_add='$ip'";
+
+    $run_cart=mysqli_query($conn,$sel_cart);
+
+    $check_cart=mysqli_num_rows($run_cart);
+
+
+    if($check_c>0 AND $check_cart==0){
+      $_SESSION['customer_email']=$c_email;
+      
+
+      echo "<script>alert('Logged In succefully')</script>";
+      echo "<script>window.open('customer/my_account.php','_self')</script>";
+    }
+    else{
+    	$_SESSION['customer_email']=$c_email;
+      
+
+      echo "<script>alert('Logged In succefully')</script>";
+      echo "<script>window.open('checkout.php','_self')</script>";
+    }
+}
+
+
+
+?>

@@ -74,7 +74,18 @@ include("functions/functions.php");
 
          <div id="shopping_cart">
            <span style="float: right;size: 18px;line-height: 40px;padding: 5px;">
-             Welcome Guest! <b style="color: yellow">Shopping Cart - </b>Total Items:<?php addItems(); ?> Total Price:<?php total_price(); ?> <a href="cart.php" style="color: yellow;">Go to Cart</a>
+             Welcome Guest! <b style="color: yellow">Shopping Cart - </b>Total Items:<?php addItems(); ?> Total Price:<?php total_price(); ?> <a href="index.php" style="color: yellow;">Back to Shop</a>
+             <?php
+             if(!isset($_SESSION['customer_email'])){
+              echo "<a href='checkout.php' style='color:orange;'>LogIn</a>";
+             }
+             else{
+              echo "<a href='logout.php' style='color:orange;'>LogOut</a>";
+             }
+
+
+
+             ?>
            </span>
          </div>
 
@@ -106,10 +117,11 @@ include("functions/functions.php");
   $get_pro="select * from cart where ip_add='$ip'";
 
   $run_pro=mysqli_query($conn,$get_pro);
+  
 
   while($p_price=mysqli_fetch_array($run_pro)){
     $pro_id=$p_price['p_id'];
-
+    
     $get_price="select * from products where product_id='$pro_id'";
 
     $run_price=mysqli_query($conn,$get_price);
@@ -132,7 +144,7 @@ include("functions/functions.php");
                 <img src="admin_area/product_images/<?php echo $product_image; ?>" width="80" hieght="80">
 
                 </td>
-                <td><input type="text" size="3" name="qty" value="<?php echo $_SESSION['qty']; ?>"></td>
+                <td><input type="text" size="3" name="qty" value="<?php echo $_SESSION['qty'] ; ?>"></td>
                  <?php
               if(isset($_POST['update_cart'])){
                 $qty=$_POST['qty'];
@@ -140,16 +152,19 @@ include("functions/functions.php");
                 $set_qty="update cart set qty='$qty'";
 
                 $run_qty=mysqli_query($conn,$set_qty);
+               $_SESSION['qty']=$qty;
+                
 
-                $_SESSION['qty']=$qty;
+                $total+=$single_price*($qty-1);
 
-                $total=$total*$qty;
               } 
 
               ?>
                 <td><?php echo "$",$single_price; ?></td>
               </tr>
-              <?php } } ?>
+              <?php } } 
+
+              ?>
              
 
               <tr align="right">
@@ -168,10 +183,13 @@ include("functions/functions.php");
            </form>
 
            <?php
-
+            if(isset($_POST['remove'])){
+              updatecart();
+            }
            
-            
+            function updatecart(){
               global $conn;
+            
             $ip=getIp();
            if(isset($_POST['update_cart'])){
             foreach($_POST['remove'] as $remove_id ){
@@ -182,13 +200,19 @@ include("functions/functions.php");
             }
 
             if($run_delete){
-              echo "<script>window.open('cart.php','_self')</script";
+              echo "<script>window.open('cart.php','_self')</script>";
             }
            } 
-           if(isset($_POST['continue_shopping'])){
-            echo "<script>window.open('index.php','_self')</script";
-           }
 
+         }
+           if(isset($_POST['continue_shopping'])){
+            echo "<script>window.open('index.php','_self')</script>";
+           }
+      
+       
+
+     
+    
            
 
            ?>

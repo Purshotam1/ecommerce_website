@@ -1,6 +1,7 @@
 
 <!DOCTYPE>
 <?php
+session_start();
 include("functions/functions.php");
 
 ?>
@@ -74,6 +75,18 @@ include("functions/functions.php");
          <div id="shopping_cart">
            <span style="float: right;size: 18px;line-height: 40px;padding: 5px;">
              Welcome Guest! <b style="color: yellow">Shopping Cart - </b>Total Items:<?php addItems(); ?> Total Price:<?php total_price(); ?> <a href="cart.php" style="color: yellow;">Go to Cart</a>
+
+             <?php
+             if(!isset($_SESSION['customer_email'])){
+              echo "<a href='checkout.php' style='color:orange;'>LogIn</a>";
+             }
+             else{
+              echo "<a href='logout.php' style='color:orange;'>LogOut</a>";
+             }
+
+
+
+             ?>
            </span>
          </div>
 
