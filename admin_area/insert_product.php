@@ -1,3 +1,16 @@
+<?php
+
+
+if(!isset($_SESSION['user_email'])){
+    echo "<script>window.open('login.php?not_admin=you are not an admin','_self')</script>";
+}
+else{
+
+
+
+
+
+?>
 <!DOCTYPE>
 <?php
 
@@ -16,7 +29,7 @@ include("includes/db.php");
 
    <form action="insert_product.php" method="post" enctype="multipart/form-data">
 
-     <table align="center" width="750" border="2" bgcolor="orange">
+     <table align="center"  width="795" border="2" bgcolor="#187eae">
 
      	<tr align="center">
      		<td colspan="8"><h2>Insert New Post Here</h2></td>
@@ -147,5 +160,5 @@ include("includes/db.php");
 
 
 
-
+}
 ?>

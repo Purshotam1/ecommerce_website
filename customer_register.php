@@ -3,7 +3,12 @@
 <?php
 session_start();
 include("functions/functions.php");
-include("customer/includes/db.php")
+include("customer/includes/db.php");
+
+if(isset($_SESSION['customer_email'])){
+  echo "<script>alert('You are already logged in')</script>";
+  echo "<script>window.open('customer/my_account.php','_self')</script>";
+}
 
 ?>
 <html>
